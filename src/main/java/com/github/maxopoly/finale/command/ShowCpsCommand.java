@@ -1,26 +1,20 @@
 package com.github.maxopoly.finale.command;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Description;
 import com.github.maxopoly.finale.Finale;
 import com.github.maxopoly.finale.combat.CPSHandler;
-import java.util.LinkedList;
-import java.util.List;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import vg.civcraft.mc.civmodcore.command.CivCommand;
-import vg.civcraft.mc.civmodcore.command.StandaloneCommand;
 
-@CivCommand(id = "cps")
-public class ShowCpsCommand extends StandaloneCommand {
+public class ShowCpsCommand extends BaseCommand {
 
-	@Override
-	public boolean execute(CommandSender arg0, String[] arg1) {
-		if (!(arg0 instanceof Player)) {
-			return true;
-		}
-		
-		Player player = (Player) arg0;
-		
+	@CommandAlias("cps")
+	@Description("Shows you how fast you are clicking per second.")
+	public void execute(Player sender) {
+		Player player = (Player) sender;
+
 		CPSHandler cpsHandler = Finale.getPlugin().getManager().getCPSHandler();
 		if (cpsHandler.isShowingCPS(player)) {
 			cpsHandler.hideCPS(player);
@@ -29,12 +23,5 @@ public class ShowCpsCommand extends StandaloneCommand {
 			cpsHandler.showCPS(player);
 			player.sendMessage(ChatColor.GREEN + "You are now viewing your CPS!");
 		}
-		return true;
 	}
-
-	@Override
-	public List<String> tabComplete(CommandSender arg0, String[] arg1) {
-		return new LinkedList<>();
-	}
-
 }
